@@ -98,6 +98,87 @@ svg.logo {
   color: #8a8a8a;
 }
 .fan-lore strong { color: #fff; font-weight: 600; }
+.listen {
+  margin-top: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.listen-btn {
+  margin-top: 18px;
+  background: #111;
+  color: #fff;
+  border: 1px solid #333;
+  border-radius: 999px;
+  padding: 10px 24px;
+  font-size: 12px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.25s, background 0.25s;
+}
+.listen-btn:hover { border-color: #666; background: #1a1a1a; }
+.bubble {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translate(-50%, 16px);
+  width: min(92vw, 440px);
+  background: #0c0c0c;
+  border: 1px solid #2a2a2a;
+  border-radius: 20px;
+  padding: 14px;
+  z-index: 20;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.8);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.bubble.open { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
+.bubble-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: #777;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+.bubble-close:hover { color: #fff; }
+.player-wrap {
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+}
+.player-wrap iframe { width: 100%; height: 100%; border: 0; display: block; }
+.player-tracks {
+  list-style: none;
+  margin: 12px 0 2px;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.player-tracks button {
+  background: #161616;
+  border: 1px solid #2c2c2c;
+  color: #aaa;
+  border-radius: 999px;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  padding: 6px 13px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+.player-tracks button:hover { color: #fff; border-color: #555; }
+.player-tracks .playing { color: #fff; border-color: #888; }
 .foot {
   margin-top: 110px;
   font-size: 10px;
@@ -147,7 +228,27 @@ svg.logo {
 <p><strong>The 13-year silence.</strong> After <em>Drukqs</em> (2001) he vanished. When <em>Syro</em> finally landed in 2014 it shipped with a handwritten note about MP3s — and nobody had even known it was coming.</p>
 <p><strong>Still hiding.</strong> The hunt for the location of a single grainy beach photo, the unlabelled tapes he left in record shops, the smiley that never stays still… with Aphex Twin, the lore is half the discography.</p>
 </section>
+<section class="listen">
+<p class="section-title">Listen</p>
+<button class="listen-btn" id="openPlayer" type="button">&#9654;&nbsp; play some tracks</button>
+</section>
 <p class="foot">fan-made shrine · not affiliated</p>
+</div>
+<div class="bubble" id="bubble" aria-hidden="true">
+<button class="bubble-close" id="closePlayer" type="button" aria-label="Close player">&times;</button>
+<div class="player-wrap">
+<iframe id="player" title="Aphex Twin player" src="" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+</div>
+<ul class="player-tracks">
+<li><button type="button" data-video="5ZT3gTu4Sjw">Windowlicker</button></li>
+<li><button type="button" data-video="2tOutF8B3f8">Xtal</button></li>
+<li><button type="button" data-video="uxTdTaNIUxo">Avril 14th</button></li>
+<li><button type="button" data-video="ulj5UJ5GHvE">Alberto Balsalm</button></li>
+<li><button type="button" data-video="-yNHlKAzyVA">Flim</button></li>
+<li><button type="button" data-video="TZ827lkktYs">Come to Daddy</button></li>
+<li><button type="button" data-video="lyXgX7OmCuA">4</button></li>
+<li><button type="button" data-video="RUAJ8KLGqis">minipops 67</button></li>
+</ul>
 </div>
 <script>
 (function () {
@@ -165,6 +266,31 @@ svg.logo {
   window.addEventListener("scroll", step, { passive: true });
   window.addEventListener("resize", step, { passive: true });
   step();
+})();
+(function () {
+  var bubble = document.getElementById("bubble");
+  var player = document.getElementById("player");
+  var openBtn = document.getElementById("openPlayer");
+  var closeBtn = document.getElementById("closePlayer");
+  var tracks = Array.prototype.slice.call(document.querySelectorAll(".player-tracks button"));
+  function openBubble() {
+    bubble.classList.add("open");
+    bubble.setAttribute("aria-hidden", "false");
+  }
+  function closeBubble() {
+    bubble.classList.remove("open");
+    player.src = "";
+    bubble.setAttribute("aria-hidden", "true");
+  }
+  openBtn.addEventListener("click", openBubble);
+  closeBtn.addEventListener("click", closeBubble);
+  tracks.forEach(function (b) {
+    b.addEventListener("click", function () {
+      player.src = "https://www.youtube-nocookie.com/embed/" + b.getAttribute("data-video") + "?autoplay=1&rel=0";
+      tracks.forEach(function (x) { x.classList.remove("playing"); });
+      b.classList.add("playing");
+    });
+  });
 })();
 </script>
 </body>
