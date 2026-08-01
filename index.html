@@ -151,7 +151,7 @@ svg.logo {
 }
 .bubble-close:hover { color: #fff; }
 .player-wrap {
-  aspect-ratio: 16 / 9;
+  height: 166px;
   border-radius: 12px;
   overflow: hidden;
   background: #000;
@@ -240,14 +240,14 @@ svg.logo {
 <iframe id="player" title="Aphex Twin player" src="" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
 </div>
 <ul class="player-tracks">
-<li><button type="button" data-video="WvzL-VgdmMo">Windowlicker</button></li>
-<li><button type="button" data-video="2tOutF8B3f8">Xtal</button></li>
-<li><button type="button" data-video="uxTdTaNIUxo">Avril 14th</button></li>
-<li><button type="button" data-video="ulj5UJ5GHvE">Alberto Balsalm</button></li>
-<li><button type="button" data-video="-yNHlKAzyVA">Flim</button></li>
-<li><button type="button" data-video="TZ827lkktYs">Come to Daddy</button></li>
-<li><button type="button" data-video="lyXgX7OmCuA">4</button></li>
-<li><button type="button" data-video="RUAJ8KLGqis">minipops 67</button></li>
+<li><button type="button" data-src="https://soundcloud.com/loversrebellion/aphex-twin-window-licker">Windowlicker</button></li>
+<li><button type="button" data-src="https://soundcloud.com/xclely/aphex-twin-xtal-mp3">Xtal</button></li>
+<li><button type="button" data-src="https://soundcloud.com/kidwave/aphex-twin-avril-14th">Avril 14th</button></li>
+<li><button type="button" data-src="https://soundcloud.com/user-960669023/alberto-balsalm-aphex-twin">Alberto Balsalm</button></li>
+<li><button type="button" data-src="https://soundcloud.com/566166776-391681684/aphex-twin-flim">Flim</button></li>
+<li><button type="button" data-src="https://soundcloud.com/bellebbelleb/aphex-twin-come-to-daddy">Come to Daddy</button></li>
+<li><button type="button" data-src="https://soundcloud.com/richarddjames/4a1">4</button></li>
+<li><button type="button" data-src="https://soundcloud.com/warp-records/aphex-twin-minipops-67-1202source-field-mix">minipops 67</button></li>
 </ul>
 </div>
 <script>
@@ -286,7 +286,7 @@ svg.logo {
   closeBtn.addEventListener("click", closeBubble);
   tracks.forEach(function (b) {
     b.addEventListener("click", function () {
-      player.src = "https://www.youtube-nocookie.com/embed/" + b.getAttribute("data-video") + "?autoplay=1&rel=0";
+      player.src = "https://w.soundcloud.com/player/?url=" + encodeURIComponent(b.getAttribute("data-src")) + "&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&visual=false&color=%23ffffff";
       tracks.forEach(function (x) { x.classList.remove("playing"); });
       b.classList.add("playing");
     });
